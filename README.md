@@ -26,7 +26,7 @@ Transforming JSON to hash is not enough and lead to obscure type errors.
 
 ### Build a JSON::OnSteroid structure:
 
-```
+```crystal
   # build from initial json
   json = JSON.parse(%<{"a": 1, "b": 2}>).on_steroid
   json = JSON::OnSteroid.new(JSON.parse(%<{"a": 1, "b": 2}>))
@@ -105,7 +105,7 @@ Two flavors of dig method exists:
 `JSON::OnSteroid` objects can introspect about their state, if it has been mutated.
   It also can return the schema with the only mutated elements:
 
-```
+```crystal
   json = JSON.parse(%<{"key": 1, "other": {"counter": 123}}>).mutable
 
   json["other"]["counter"] = 543
@@ -134,12 +134,6 @@ You can `crawl` the keys using `crawl` method:
 ```crystal
 # Crawl to an aggregator:
 json.crawl([]){ |agg, json| agg << json if (json.key == "type" && json.as_s? == "event") }
-```
-
-`crawl` perform from top most values to sub content values. For example:
-
-```
-%<>
 ```
 
 ## Q&A
