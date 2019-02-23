@@ -2,18 +2,18 @@ name: mutable_json
 version: 0.1.0
 
 authors:
-  - Yacine Petitprez <yacine.petitprez@gmail.com>
+  - Yacine Petitprez <anykeyh@gmail.com>
 
 description: |
-  Offer JSON mutable structure and helpers to handle JSON payload in productive way
+  Handle JSON payload in a productive way
 
 # dependencies:
 #   pg:
 #     github: will/crystal-pg
 #     version: "~> 0.5"
 
-# development_dependencies:
-#   webmock:
-#     github: manastech/webmock.cr
+development_dependencies:
+  clear:
+    github: anykeyh/clear
 
 license: MIT

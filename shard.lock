@@ -1,0 +1,26 @@
+version: 1.0
+shards:
+  admiral:
+    github: jwaldrip/admiral.cr
+    commit: 0892415a8775fe59ff4c6de6cb5b21da8c9acd8e
+
+  clear:
+    github: anykeyh/clear
+    version: 0.5
+
+  db:
+    github: crystal-lang/crystal-db
+    version: 0.5.1
+
+  generate:
+    github: anykeyh/generate.cr
+    commit: 27a59d663ded8ce39a361e3a88b8dd747f59ce42
+
+  inflector:
+    github: phoffer/inflector.cr
+    version: 0.1.8
+
+  pg:
+    github: will/crystal-pg
+    version: 0.15.0
+
