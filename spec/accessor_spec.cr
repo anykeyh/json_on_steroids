@@ -45,11 +45,11 @@ module AccessorSpec
 
     end
 
-    pending "array append <<(AuthorizedSetType)" do
+    it "array append <<(AuthorizedSetType)" do
       json = JSON.parse(FULL_EXAMPLE_JSON).on_steroids!
 
       json["array"] << "Hello world"
-      json["array"].as_arr.last.should eq "Hello world"
+      json["array"].as_arr.last.as_s.should eq "Hello world"
     end
 
     it "delete key/index" do

@@ -127,13 +127,17 @@ json.clean! #
 json.dirty? # => false
 ```
 
-### Crawling
+### Searching
 
-You can `crawl` the keys using `crawl` method:
+You can `search` through the document a key responding to a specific rule:
 
 ```crystal
-# Crawl to an aggregator:
-json.crawl([]){ |agg, json| agg << json if (json.key == "type" && json.as_s? == "event") }
+puts "Events from facebook:"
+
+# search every elements which contains the keys `type` and `provider`:
+json.search(type: "event", provider: "facebook"){ |evt|
+  puts evt["url"]
+}
 ```
 
 ## Q&A

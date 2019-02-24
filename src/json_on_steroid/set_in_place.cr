@@ -34,7 +34,9 @@ module JSON::OnSteroids::SetInPlace
       h.delete(key.as(String))
     end
 
-    elm.detach
+    @parent = nil
+    @key = nil
+
     elm
   end
 
