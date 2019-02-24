@@ -20,6 +20,7 @@ module AccessorSpec
         json["v"] = v
         json["v"].to_json.should eq(k)
       end
+      json.dirty?.should be_true
     end
 
     it "setter / getter for array []=(Int, AuthorizedSetType)" do
@@ -43,6 +44,7 @@ module AccessorSpec
         json["array"][0].to_json.should eq(k)
       end
 
+      json.dirty?.should be_true
     end
 
     it "array append <<(AuthorizedSetType)" do
@@ -50,6 +52,8 @@ module AccessorSpec
 
       json["array"] << "Hello world"
       json["array"].as_arr.last.as_s.should eq "Hello world"
+
+      json.dirty?.should be_true
     end
 
     it "delete key/index" do
@@ -60,14 +64,8 @@ module AccessorSpec
 
       json["array2"][1].delete
       json["array2"][1].as_f.should eq(1.2)
-    end
 
-    pending "merge hash" do
-      json = JSON.parse(FULL_EXAMPLE_JSON).on_steroids!
-
-      json.merge!({"a" => "b", "hash" => { "a" => 1, "c"=> 3 } } )
-
-      json["a"]
+      json.dirty?.should be_true
     end
 
 

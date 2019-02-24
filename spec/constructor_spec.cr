@@ -22,6 +22,10 @@ module ConstructorSpec
     end
 
     it "can construct from primitives" do
+      # New object hash
+      JSON::OnSteroids.new.to_json.should eq "{}"
+
+      #
       JSON::OnSteroids.new("string").to_json.should eq "\"string\""
       JSON::OnSteroids.new(1).to_json.should eq "1"
       JSON::OnSteroids.new(1.2).to_json.should eq "1.2"

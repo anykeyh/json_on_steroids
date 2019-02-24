@@ -34,6 +34,7 @@ class JSON::OnSteroids
   include Searchable
   include SetInPlace
   include Dirty
+  include MergeOperations
 
   def wrap(hash : Hash(String, _))
     raw = @raw = {} of String => self
