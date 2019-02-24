@@ -18,11 +18,13 @@ module JSON::OnSteroids::SetInPlace
   def set(&block)
     @raw = JSON::OnSteroids.new(yield).raw
     self.dirty!
+    self
   end
 
   def set(value)
     @raw = JSON::OnSteroids.new(value).raw
     self.dirty!
+    self
   end
 
   def delete(key : Int | String | Nil )
@@ -34,6 +36,7 @@ module JSON::OnSteroids::SetInPlace
       h.delete(key.as(String))
     end
 
+    @parent.try &.dirty!
     @parent = nil
     @key = nil
 

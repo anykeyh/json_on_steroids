@@ -3,13 +3,17 @@ module JSON::OnSteroids::Access
   # Assume the current mutable is an hash and set a value to a given key.
   def []=(key : String, value)
     h = as_h
-    h[key] = JSON::OnSteroids.new(value, self, key)
+    obj = JSON::OnSteroids.new(value, self, key)
+    obj.dirty!
+    h[key] = obj
   end
 
   # Assume the current mutable is an array and set a value to a given key.
   def []=(key : Int, value)
     if arr = as_arr?
-      arr[key] = JSON::OnSteroids.new(value, self, key)
+      obj = JSON::OnSteroids.new(value, self, key)
+      obj.dirty!
+      arr[key] = obj
     else
       raise("Cannot set: #{path} is not an Array.")
     end
@@ -18,7 +22,9 @@ module JSON::OnSteroids::Access
   # Assume the current mutable is an array and append a value at the end.
   def <<(value : AuthorizedSetTypes)
     if arr = as_arr?
-      arr << JSON::OnSteroids.new(value)
+      obj = JSON::OnSteroids.new(value)
+      obj.dirty!
+      arr << obj
     else
       raise("Cannot set: #{path} is not an Array.")
     end

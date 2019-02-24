@@ -2,9 +2,11 @@ module JSON::OnSteroids::Dirty
   getter? dirty : Bool = false
 
   def dirty!
-    @dirty = true
+    unless @dirty
+      @dirty = true
 
-    parent.try &.dirty!
+      parent.try &.dirty!
+    end
   end
 
   def clean!

@@ -33,6 +33,7 @@ class JSON::OnSteroids
   include Access
   include Searchable
   include SetInPlace
+  include Dirty
 
   def wrap(hash : Hash(String, _))
     raw = @raw = {} of String => self
