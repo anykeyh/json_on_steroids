@@ -12,8 +12,8 @@ module JSON::OnSteroids::Access
   def []=(key : Int, value)
     if arr = as_arr?
       obj = JSON::OnSteroids.new(value, self, key)
-      obj.dirty!
       arr[key] = obj
+      self.dirty!
     else
       raise("Cannot set: #{path} is not an Array.")
     end
@@ -23,8 +23,8 @@ module JSON::OnSteroids::Access
   def <<(value : AuthorizedSetTypes)
     if arr = as_arr?
       obj = JSON::OnSteroids.new(value)
-      obj.dirty!
       arr << obj
+      self.dirty!
     else
       raise("Cannot set: #{path} is not an Array.")
     end

@@ -1,5 +1,5 @@
 require "spec"
-require "../src/json_on_steroid"
+require "../src/json_on_steroids"
 
 
 JSON_MODELS_1 = %<"">
