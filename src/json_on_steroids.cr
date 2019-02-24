@@ -32,7 +32,7 @@ class JSON::OnSteroids
 
   include Access
   include Searchable
-  include SetInPlace
+  include InPlace
   include Dirty
   include MergeOperations
 

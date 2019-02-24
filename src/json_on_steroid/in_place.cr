@@ -1,4 +1,4 @@
-module JSON::OnSteroids::SetInPlace
+module JSON::OnSteroids::InPlace
   # Mutate in place a value.
   #
   # Example:
@@ -34,20 +34,22 @@ module JSON::OnSteroids::SetInPlace
     elsif h = as_h?
       elm = h[key.as(String)]
       h.delete(key.as(String))
+    else
+      raise "Cannot delete key `#{key}`: not and object or an array"
     end
 
-    @parent.try &.dirty!
-    @parent = nil
-    @key = nil
+    dirty!
 
     elm
   end
 
   def delete
-    if(parent = self.parent)
-      parent.delete(key)
-    else
-      raise "Cannot delete a root document"
-    end
+    raise "Cannot delete the root document" unless (parent = self.parent)
+
+    parent.delete(key)
+
+    @parent = @key = nil
+
+    self
   end
 end

@@ -62,8 +62,13 @@ module AccessorSpec
       json["array"].delete
       json["array"]?.should eq nil
 
-      json["array2"][1].delete
-      json["array2"][1].as_f.should eq(1.2)
+      item = json["array2"][1]
+      item.delete
+
+      item.parent.should be_nil
+      item.key.should be_nil
+
+      json["array2"][1].as_f.should eq(1.2) #< The next item is selected
 
       json.dirty?.should be_true
     end

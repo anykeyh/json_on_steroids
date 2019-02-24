@@ -45,7 +45,7 @@ module JSON::OnSteroids::Searchable
     end
 
     if key.empty?
-      self
+      self #< item found
     else
       if as_arr?
         self[key.to_i].dig(io)
