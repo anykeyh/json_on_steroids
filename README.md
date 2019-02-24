@@ -2,47 +2,49 @@
 
 ## Description
 
-JSON::OnSteroid provides powerful JSON document transformation and edition
+`json_on_steroids` provides powerful JSON document transformation and edition
 with some advanced features to navigate through the keys.
 
 Basically, it can be seen as a `JSON::Any` object on steroid.
 
-The current Crystal stdlib JSON implementation is made of structure which are
-immutable. While being performant, it turns out dealing with JSON blob with a
-fully typed language can be really painful.
+The current Crystal stdlib JSON implementation is made of immutable structures. 
+While being performant, it turns out dealing with JSON blob with a fully typed language can be really painful.
 
-Transforming JSON to hash is not enough and lead to obscure type errors.
+Transforming JSON to hash or array is often not enough and lead to obscure type errors and ninja type castings.
 
-`JSON::OnSteroid` trades some performances versus functionalities:
+`JSON::OnSteroids` trades some performance to offers functionalities:
 
-- Mutate or construct a JSON schema easily
+- Mutate or construct from zero a JSON schema easily
 - Pass Hash, Array, NamedTuple etc... as parameters of keys without hassle
 - Check whether a schema is dirty (has changed) or not
 - Errors telling you what key/sub-schema is wrong at runtime
-- Out of the box support of `Time`, which happens to be common
-- Interface well with JSONB and [Clear ORM](https://github.com/anykeyh/clear)
+- Out of the box support of `Time`, which happens to be common in JSON
+- Interface well with PostgreSQL's JSONB column and [Clear ORM](https://github.com/anykeyh/clear)
 
 ## Example
 
 ### Build a JSON::OnSteroid structure:
 
 ```crystal
+  # build from scratch (empty object `{}`)
+  json = JSON::OnSteroids.new
+  
   # build from initial json
-  json = JSON.parse(%<{"a": 1, "b": 2}>).on_steroid
-  json = JSON::OnSteroid.new(JSON.parse(%<{"a": 1, "b": 2}>))
+  json = JSON.parse(%<{"a": 1, "b": 2}>).on_steroids
+  json = JSON::OnSteroids.new(JSON.parse(%<{"a": 1, "b": 2}>))
 
   # build from initial hash and named tuples:
-  json = JSON::OnSteroid.new a: 1, b: 2
-  json = JSON::OnSteroid.new({a => 1, b => 2})
+  json = JSON::OnSteroids.new a: 1, b: 2
+  json = JSON::OnSteroids.new({a => 1, b => 2})
 
   # build from empty object json
-  json = JSON::OnSteroid.new
+  json = JSON::OnSteroids.new
 
   # build array
-  json = JSON::OnSteroid.new [1,2,3]
+  json = JSON::OnSteroids.new [1,2,3]
 
   # build a value (is it useful?)
-  json = JSON::OnSteroid.new "a value"
+  json = JSON::OnSteroids.new "a value"
 ```
 
 ### Exporting to json
@@ -57,17 +59,34 @@ The API of `JSON::Any` for getters are supported. So, as with `JSON::Any`, you
 can access to a specific field by using `[]` then casting using `as_xxx` where
 `xxxx` can be `i`, `s`, `b` etc...
 
-Basically, `JSON::OnSteroid` can be passed wherever a `JSON::Any` object is
+Basically, a `JSON::OnSteroid` can be passed wherever a `JSON::Any` object is
 required, while it's not true in the other way.
 
-`JSON::Any::Mutate` add setters:
+`JSON::OnSteroids` add setters:
 
 ```crystal
-json = JSON.parse(%<{"type": "event", "type": "favorites_numbers","data": [1,2,3,4] }>).mutable
+json = JSON.parse(%<{"type": "event", "type": "favorites_numbers","data": [1,2,3,4] }>).on_steroids
 
 json["data"][0] = "Hello"
 
 json.to_json # => {"type": "event", "type": "favorites_numbers","data": ["Hello",2,3,4] }
+
+# Automatically import from named tuples, arrays and hashes
+
+from_tuple = {
+  type: "collection",
+  pages: {
+    count: 3,
+    current: 2,
+    next_page: "http://myservice/api/collection?page=3"
+  },
+  data: [
+    { type: "_user", id: 1 },
+    { type: "_user", id: 2 }
+  ]
+}
+
+json = JSON::OnSteroid.new(from_tuple)
 ```
 
 ### Digging
@@ -79,34 +98,38 @@ Digging allows you to fetch a key in your JSON schema:
   puts json.dig("data.1").as_i #=> 2
 ```
 
-Digging can be combined with set in place feature:
+Two flavors of dig method exists:
+`dig(string)` which throw an error if the key is not found / schema doesn't match and `dig?(string)` which return
+`nil` in case it can't dig (the key doesn't match).
+
+### Set / remove in place
+Digging can be combined with set in place and remove feature:
 
 ```crystal
   json = JSON.parse(%<{"other": {"counter": 123}}>).mutable
 
   json.dig?("other.counter").try &.set{ |x| x.as_i + 1 }
   puts json.to_json # => {"other": {"counter": 124}}
+  
+  json.dig("other.counter").remove
+  puts json.to_json # => {"other": {}}
 ```
-
-Two flavors of dig method exists:
-`dig(string)` which throw an error if the key is not found / schema doesn't match and `dig?(string)` which return
-`nil` in case it can't dig (the key doesn't match).
-
 
 ### Introspection
 
-`JSON::OnSteroid` objects are aware of few states:
-- If they belongs to a parent by calling `json.parent` and `json.ancestors`
+`JSON::OnSteroids` objects are aware of few states:
+- You can reverse traversing by calling `json.parent`
 - How deep they are in the document by calling `json.depth`
 - If they are dirty (e.g. they mutate) by calling `json.dirty?`
 - In case they belongs to a map or an array,
   which key they are mapped to by calling `json.key`
+- The full path of an element can be found by calling `json.path`
 
-`JSON::OnSteroid` objects can introspect about their state, if it has been mutated.
+`JSON::OnSteroids` objects can introspect about their mutation state.
   It also can return the schema with the only mutated elements:
 
 ```crystal
-  json = JSON.parse(%<{"key": 1, "other": {"counter": 123}}>).mutable
+  json = JSON.parse(%<{"key": 1, "other": {"counter": 123}}>).on_steroids
 
   json["other"]["counter"] = 543
 
@@ -117,7 +140,7 @@ Two flavors of dig method exists:
 
 This is useful for:
 - Snapshot between your JSON document
-- Merge-able noSQL databases will crunch this in no time
+- Merge-able noSQL databases will crunch this in no time \o/
 
 You can clean a dirty object by calling `clean!` on it:
 
@@ -128,6 +151,8 @@ json.dirty? # => false
 ```
 
 ### Searching
+
+**WIP: Not implemented yet.**
 
 You can `search` through the document a key responding to a specific rule:
 
@@ -159,19 +184,19 @@ environnement, I would recommend you to use data mapping or serialization strate
 
 ### Clear
 
-Currently, `json_on_steroid` interface with [Clear](https://github.com/anykeyh/clear),
+Currently, `json_on_steroids` interface with [Clear](https://github.com/anykeyh/clear),
 as that's how I use it.
 
 Add this optional requirement to use it into clear
 
 ```crystal
-require "json_on_steroid/ext/clear"
+require "json_on_steroids/ext/clear"
 ```
 
 Now your jsonb columns are mapped :).
 
 ```crystal
-  column jsonb : JSON::OnSteroid
+  column jsonb : JSON::OnSteroids
 ```
 Usage of `dirty?` allows the edition in place of your json:
 
@@ -179,7 +204,7 @@ Usage of `dirty?` allows the edition in place of your json:
   mdl = Model.query.first!
   mdl.jsonb["my"]["content"] = "is awesome"
   mdl.changed? # => true
-  mdl.update_h #=> {"jsonb" => JSON::OnSteroid}
+  mdl.update_h #=> {"jsonb" => JSON::OnSteroids}
   mdl.save!
 ```
 
