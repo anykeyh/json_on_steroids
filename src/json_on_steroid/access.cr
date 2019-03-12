@@ -53,16 +53,17 @@ module JSON::OnSteroids::Access
 
   # Assume the current mutable is an hash and return the value under the key
   def [](key : String)
-    raise("Error accessing #{key}: The parent `#{path}` is not an object") unless hash = as_h?
-    k = hash.fetch(key){ raise("Key not found: #{key} (in `#{path}`)") }
+    fetch(key){ raise("Key not found: #{key} (in `#{path}`)") }
   end
 
   # Assume the current mutable is an hash and return the value under the key, if any.
   def []?(key : String)
-    if h = as_h?
-      h[key]?
-    else
-      raise("Cannot fetch key #{key}: `#{path}` is not an object.")
-    end
+    fetch(key){ nil }
   end
+
+  def fetch(key : String, &block)
+    raise("Error accessing #{key}: The parent `#{path}` is not an object") unless hash = as_h?
+    hash.fetch(key){ yield }
+  end
+
 end
