@@ -19,19 +19,20 @@ module JSON::OnSteroids::Access
     end
   end
 
-  # Assume the current mutable is an array and append a value at the end.
-  def <<(value : AuthorizedSetTypes)
-    if arr = as_arr?
-      obj = JSON::OnSteroids.new(value)
-      arr << obj
-      self.dirty!
-    else
-      raise("Cannot set: #{path} is not an Array.")
-    end
+  # Create empty array for a specific key
+  def create_arr(key : String | Int)
+    self[key] = [] of JSON::OnSteroids
+    self[key]
+  end
+
+  # Create empty obj at a specific key
+  def create_obj(key : String | Int)
+    self[key] = {} of String => JSON::OnSteroids
+    self[key]
   end
 
   # Assume the current mutable is an array and append a value at the end.
-  def <<(value : NamedTuple)
+  def <<(value)
     if arr = as_arr?
       obj = JSON::OnSteroids.new(value)
       arr << obj
