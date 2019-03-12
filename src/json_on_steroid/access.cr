@@ -30,6 +30,17 @@ module JSON::OnSteroids::Access
     end
   end
 
+  # Assume the current mutable is an array and append a value at the end.
+  def <<(value : NamedTuple)
+    if arr = as_arr?
+      obj = JSON::OnSteroids.new(value)
+      arr << obj
+      self.dirty!
+    else
+      raise("Cannot set: #{path} is not an Array.")
+    end
+  end
+
   # Assume the current mutable is an array and return the value at the key offset.
   def [](key : Int)
     if arr = as_arr?

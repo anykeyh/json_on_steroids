@@ -26,7 +26,7 @@ module JSON::OnSteroids::MergeOperations
   #
   # ```
   #   json = JSON.parse(%<{"a": 1, "b": 2, "c": [1,2,3]}>).on_steroid
-  #   json = json % {"a", "b"} # => {"a": 1, "b": 2}
+  #   json = json - {"c"} # => {"a": 1, "b": 2}
   # ```
   def - ( t : Tuple )
     json = JSON::OnSteroids.new
