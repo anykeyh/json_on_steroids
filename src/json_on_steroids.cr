@@ -127,7 +127,7 @@ class JSON::OnSteroids
     when String
       "\"" + x.gsub("\"", "\\\"") + "\""
     when Time
-      x.to_utc.to_s(UTC_ISO_FORMAT)
+      "\"" + x.to_utc.to_s(UTC_ISO_FORMAT) + "\""
     else
       x.to_s
     end
