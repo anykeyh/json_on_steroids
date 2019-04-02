@@ -4,7 +4,7 @@ module AccessorSpec
       json = JSON.parse(FULL_EXAMPLE_JSON).on_steroids!
 
       now = Time.now
-      now_str = now.to_utc.to_s("%FT%T.%LZ")
+      now_str = '"' + now.to_utc.to_s("%FT%T.%LZ") + '"'
 
       {
         "5" => 5,
@@ -27,7 +27,7 @@ module AccessorSpec
       json = JSON.parse(FULL_EXAMPLE_JSON).on_steroids!
 
       now = Time.now
-      now_str = now.to_utc.to_s("%FT%T.%LZ")
+      now_str = '"' + now.to_utc.to_s("%FT%T.%LZ") + '"'
 
       {
         "5" => 5,

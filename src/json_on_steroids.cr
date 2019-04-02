@@ -62,7 +62,6 @@ class JSON::OnSteroids
 
   def initialize(**tuple)
     @parent = nil
-    @key = "#<root>"
 
     wrap(tuple)
   end
