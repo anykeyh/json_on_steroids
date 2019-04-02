@@ -52,7 +52,7 @@ class JSON::OnSteroids
     end
   end
 
-  def wrap(array : Array(AuthorizedSetTypes))
+  def wrap(array : Array(T)) forall T
     raw = @raw = Array(self).new(initial_capacity: array.size)
 
     array.each_with_index do |it, idx|
@@ -66,16 +66,16 @@ class JSON::OnSteroids
     wrap(tuple)
   end
 
-  def initialize(container :  NamedTuple | Array | Hash, @parent = nil, @key = "<#root>")
+  def initialize(container :  NamedTuple | Array | Hash, @parent = nil, @key = nil)
     wrap(container)
   end
 
-  def initialize(json_any : JSON::OnSteroids, @parent = nil, @key = "<#root>")
+  def initialize(json_any : JSON::OnSteroids, @parent = nil, @key = nil)
     @raw = json_any.raw
   end
 
   # Initialize by passing a JSON::Any object
-  def initialize(json_any : JSON::Any, @parent = nil, @key = "<#root>")
+  def initialize(json_any : JSON::Any, @parent = nil, @key = nil)
     case json_any
     when .as_h?
       wrap(json_any.as_h)
@@ -95,7 +95,7 @@ class JSON::OnSteroids
   end
 
   # Basic initalization with a primitive
-  def initialize(@raw : WrappedPrimitive, @parent = nil, @key = "<#root>")
+  def initialize(@raw : WrappedPrimitive, @parent = nil, @key = nil)
   end
 
 
