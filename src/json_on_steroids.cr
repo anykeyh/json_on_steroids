@@ -124,7 +124,7 @@ class JSON::OnSteroids
   private def escape(x)
     case x
     when String
-      "\"" + x.gsub("\"", "\\\"") + "\""
+      x.to_json
     when Time
       "\"" + x.to_utc.to_s(UTC_ISO_FORMAT) + "\""
     else
