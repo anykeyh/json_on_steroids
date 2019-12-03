@@ -5,15 +5,11 @@ authors:
   - Yacine Petitprez <anykeyh@gmail.com>
 
 description: |
-  Handle JSON payload in a productive way
-
-# dependencies:
-#   pg:
-#     github: will/crystal-pg
-#     version: "~> 0.5"
+  Now you can touch JSON!
 
 development_dependencies:
-  clear:
-    github: anykeyh/clear
+  ameba:
+    github: veelenga/ameba
+    branch: master
 
 license: MIT

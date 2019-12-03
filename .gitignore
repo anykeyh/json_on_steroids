@@ -2,3 +2,5 @@ lib
 tmp
 
 /test.cr
+
+/bin/*
