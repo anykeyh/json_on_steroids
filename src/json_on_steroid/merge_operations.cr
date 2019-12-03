@@ -1,13 +1,12 @@
 module JSON::OnSteroids::MergeOperations
 
-  # refine this javascript object by adding only the keys which are defined by
-  # the tuple
+  # return a JSON object containing only the JSON fields requested in the argument enumerable
   #
   # ```
   #   json = JSON.parse(%<{"a": 1, "b": 2, "c": [1,2,3]}>).on_steroid
   #   json = json % {"a", "b"} # => {"a": 1, "b": 2}
   # ```
-  def % ( t : Tuple )
+  def % ( t : Enumerable )
     json = JSON::OnSteroids.new
     h = self.as_h
     t.each do |key|
@@ -21,25 +20,28 @@ module JSON::OnSteroids::MergeOperations
     json
   end
 
-  # refine this javascript object by removing the keys specified
-  # in the tuple
+  # return a JSON object removing the JSON fields defined by the argument enumerable
   #
   # ```
-  #   json = JSON.parse(%<{"a": 1, "b": 2, "c": [1,2,3]}>).on_steroid
-  #   json = json - {"c"} # => {"a": 1, "b": 2}
+  #   json = JSON.parse(%<{"user": "yacine", "password": "helloworld"}>).on_steroid
+  #   json = json - {:password} # => {"a": 1, "b": 2}
   # ```
-  def - ( t : Tuple )
-    json = JSON::OnSteroids.new
+  def - ( t : Enumerable )
     h = self.as_h.dup
 
-    t.each do |key|
-      h.delete(key.to_s)
-    end
+    t.each{ |key| h.delete(key.to_s) }
 
-    h.each do |key, value|
-      json[key] = value
-    end
+    JSON::OnSteroids.new(h)
+  end
 
+  def merge!(x : NamedTuple)
+    x.each{ |k,v| self[k.to_s] = v }
+    self
+  end
+
+  def merge(x : NamedTuple)
+    json = JSON::OnSteroids.new(self)
+    x.each{ |k,v| json[k.to_s] = v }
     json
   end
 

@@ -71,7 +71,7 @@ class JSON::OnSteroids
   end
 
   def initialize(json_any : JSON::OnSteroids, @parent = nil, @key = nil)
-    @raw = json_any.raw
+    @raw = json_any.raw.dup
   end
 
   # Initialize by passing a JSON::Any object

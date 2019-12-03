@@ -35,7 +35,7 @@ module JSON::OnSteroids::InPlace
       elm = h[key.as(String)]
       h.delete(key.as(String))
     else
-      raise "Cannot delete key `#{key}`: not and object or an array"
+      raise "Cannot delete key `#{@key}`: not and object or an array"
     end
 
     dirty!

@@ -8,7 +8,7 @@ module ConstructorSpec
     end
 
     it "can construct from Hash" do
-      now = Time.now
+      now = Time.local
       json = JSON::OnSteroids.new({
         "A" => {
           "B" => 1,
