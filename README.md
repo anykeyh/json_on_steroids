@@ -1,4 +1,4 @@
-# JSON::OnSteroid
+# JSON::OnSteroids
 
 ## Description
 
@@ -7,7 +7,7 @@ with some advanced features to navigate through the keys.
 
 Basically, it can be seen as a `JSON::Any` object on steroid.
 
-The current Crystal stdlib JSON implementation is made of immutable structures. 
+The current Crystal stdlib JSON implementation is made of immutable structures.
 While being performant, it turns out dealing with JSON blob with a fully typed language can be really painful.
 
 Transforming JSON to hash or array is often not enough and lead to obscure type errors and ninja type castings.
@@ -23,12 +23,12 @@ Transforming JSON to hash or array is often not enough and lead to obscure type 
 
 ## Example
 
-### Build a JSON::OnSteroid structure:
+### Build a JSON::OnSteroids structure:
 
 ```crystal
   # build from scratch (empty object `{}`)
   json = JSON::OnSteroids.new
-  
+
   # build from initial json
   json = JSON.parse(%<{"a": 1, "b": 2}>).on_steroids
   json = JSON::OnSteroids.new(JSON.parse(%<{"a": 1, "b": 2}>))
@@ -59,7 +59,7 @@ The API of `JSON::Any` for getters are supported. So, as with `JSON::Any`, you
 can access to a specific field by using `[]` then casting using `as_xxx` where
 `xxxx` can be `i`, `s`, `b` etc...
 
-Basically, a `JSON::OnSteroid` can be passed wherever a `JSON::Any` object is
+Basically, a `JSON::OnSteroids` can be passed wherever a `JSON::Any` object is
 required, while it's not true in the other way.
 
 `JSON::OnSteroids` add setters:
@@ -110,7 +110,7 @@ Digging can be combined with set in place and remove feature:
 
   json.dig?("other.counter").try &.set{ |x| x.as_i + 1 }
   puts json.to_json # => {"other": {"counter": 124}}
-  
+
   json.dig("other.counter").remove
   puts json.to_json # => {"other": {}}
 ```
@@ -157,10 +157,10 @@ json.dirty? # => false
 You can `search` through the document a key responding to a specific rule:
 
 ```crystal
-puts "Events from facebook:"
+puts "Events from facebook or google:"
 
 # search every elements which contains the keys `type` and `provider`:
-json.search(type: "event", provider: "facebook"){ |evt|
+json.search(type: "event", provider: /^(facebook|google)$/){ |evt|
   puts evt["url"]
 }
 ```
