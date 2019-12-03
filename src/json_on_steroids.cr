@@ -4,7 +4,7 @@ class JSON::OnSteroids
   VERSION = 0.1
 end
 
-require "./json_on_steroid/*"
+require "./json_on_steroids/*"
 
 # Handle JSON into a mutable structure, and much more.
 class JSON::OnSteroids
