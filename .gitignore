@@ -1,6 +1,11 @@
-lib
-tmp
+.DS_Store
+.shards
+/lib
+/tmp
+/poc
+/generated/
+/test
+/docs
+/coverage/
 
-/test.cr
-
-/bin/*
+/bin
