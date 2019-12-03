@@ -1,4 +1,12 @@
 module JSON::OnSteroids::InPlace
+
+  def set(value)
+    @raw = JSON::OnSteroids.new(value).raw
+
+    self.dirty!
+    self
+  end
+
   # Mutate in place a value.
   #
   # Example:
@@ -15,17 +23,13 @@ module JSON::OnSteroids::InPlace
   # ```
   #
   # Any authorized value can be passed (see JSON::Any::Mutable::AuthorizedSetTypes)
-  def set(&block)
-    @raw = JSON::OnSteroids.new(yield).raw
+  def set
+    @raw = JSON::OnSteroids.new( yield(self) ).raw
+
     self.dirty!
     self
   end
 
-  def set(value)
-    @raw = JSON::OnSteroids.new(value).raw
-    self.dirty!
-    self
-  end
 
   def delete(key : Int | String | Nil )
     if arr = as_arr?

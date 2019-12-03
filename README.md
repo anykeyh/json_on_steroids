@@ -106,9 +106,9 @@ Two flavors of dig method exists:
 Digging can be combined with set in place and remove feature:
 
 ```crystal
-  json = JSON.parse(%<{"other": {"counter": 123}}>).mutable
+  json = JSON.parse(%<{"other": {"counter": 123}}>).on_steroids
 
-  json.dig?("other.counter").try &.set{ |x| x.as_i + 1 }
+  json.dig("other.counter").set(&.as_i.+(1)) # Add 1 to the counter
   puts json.to_json # => {"other": {"counter": 124}}
 
   json.dig("other.counter").remove

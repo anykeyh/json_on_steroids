@@ -20,14 +20,14 @@ module JSON::OnSteroids::Searchable
   # ```
   #
   # To mutate straight from dig, please check `set` method
-  def dig(key : String)
+  def dig(key : String) : JSON::OnSteroids
     mem = IO::Memory.new(key)
     dig(mem)
   end
 
   # :nodoc:
   # Used internally to improve performance of the dig path parsing.
-  protected def dig(io : IO)
+  protected def dig(io : IO) : self
     key = String.build do |str|
       escape = false
       while c = io.read_char
