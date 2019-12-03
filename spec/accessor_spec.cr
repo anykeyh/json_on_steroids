@@ -3,7 +3,7 @@ module AccessorSpec
     it "setter / getter []=(AuthorizedSetType)" do
       json = JSON.parse(FULL_EXAMPLE_JSON).on_steroids!
 
-      now = Time.now
+      now = Time.local
       now_str = '"' + now.to_utc.to_s("%FT%T.%LZ") + '"'
 
       {
@@ -26,7 +26,7 @@ module AccessorSpec
     it "setter / getter for array []=(Int, AuthorizedSetType)" do
       json = JSON.parse(FULL_EXAMPLE_JSON).on_steroids!
 
-      now = Time.now
+      now = Time.local
       now_str = '"' + now.to_utc.to_s("%FT%T.%LZ") + '"'
 
       {

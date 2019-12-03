@@ -27,7 +27,7 @@ module JSON::OnSteroids::Searchable
 
   # :nodoc:
   # Used internally to improve performance of the dig path parsing.
-  private def dig(io : IO)
+  protected def dig(io : IO)
     key = String.build do |str|
       escape = false
       while c = io.read_char
