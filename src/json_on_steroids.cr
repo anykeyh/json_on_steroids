@@ -196,5 +196,3 @@ class JSON::OnSteroids
   end
 
 end
-
-

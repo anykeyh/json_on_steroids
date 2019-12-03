@@ -14,8 +14,7 @@ module AccessorSpec
         "null" => nil,
         now_str => now,
         "[1,2,3]" => [1,2,3],
-        "{\"a\":\"b\"}" => {"a" => "b"},
-        "{\"a\":\"b\"}" => {a: "b"}
+        "{\"a\":\"b\"}" => {"a" => "b"}
       }.each do |k, v|
         json["v"] = v
         json["v"].to_json.should eq(k)
@@ -37,8 +36,7 @@ module AccessorSpec
         "null" => nil,
         now_str => now,
         "[1,2,3]" => [1,2,3],
-        "{\"a\":\"b\"}" => {"a" => "b"},
-        "{\"a\":\"b\"}" => {a: "b"}
+        "{\"a\":\"b\"}" => {"a" => "b"}
       }.each do |k, v|
         json["array"][0] = v
         json["array"][0].to_json.should eq(k)

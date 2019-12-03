@@ -3,6 +3,6 @@ struct JSON::Any
   #
   # See `JSON::OnSteroids` for more informations
   def on_steroids!
-    return JSON::OnSteroids.new(self)
+    JSON::OnSteroids.new(self)
   end
 end
