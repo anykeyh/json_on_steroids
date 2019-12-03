@@ -3,12 +3,6 @@ script:
 - crystal spec -Dquiet
 - bin/ameba
 - crystal docs
-services:
-- postgresql
-before_script:
-- psql -V
-addons:
-  postgresql: '9.6'
 deploy:
   provider: pages
   skip_cleanup: true
