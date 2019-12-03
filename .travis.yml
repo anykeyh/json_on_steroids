@@ -6,8 +6,7 @@ script:
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: "$GITHUB_TOKEN"
-  project_name: anykeyh/json_on_steroids
+  github_token: $GITHUB_TOKEN
   on:
     branch: master
   local_dir: docs
