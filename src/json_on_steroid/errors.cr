@@ -1,4 +1,4 @@
-class JSON::OnSteroids::Exception
+class JSON::OnSteroids::Exception < Exception
 end
 
 class JSON::OnSteroids::KeyNotFoundException < JSON::OnSteroids::Exception; end

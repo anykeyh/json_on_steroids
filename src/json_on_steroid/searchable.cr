@@ -21,13 +21,18 @@ module JSON::OnSteroids::Searchable
   #
   # To mutate straight from dig, please check `set` method
   def dig(key : String) : JSON::OnSteroids
+    raise JSON::OnSteroids::Exception.new("JSON::OnSteroids#dig: key not found: `#{key}`") unless value = dig?(key)
+    value
+  end
+
+  def dig?(key : String) : JSON::OnSteroids?
     mem = IO::Memory.new(key)
-    dig(mem)
+    dig?(mem)
   end
 
   # :nodoc:
   # Used internally to improve performance of the dig path parsing.
-  protected def dig(io : IO) : self
+  protected def dig?(io : IO) : self?
     key = String.build do |str|
       escape = false
       while c = io.read_char
@@ -48,9 +53,9 @@ module JSON::OnSteroids::Searchable
       self #< item found
     else
       if as_arr?
-        self[key.to_i].dig(io)
+        self.as_arr[key.to_i]?.try(&.dig?(io))
       else
-        self[key].dig(io)
+        self[key]?.try(&.dig?(io))
       end
     end
   end

@@ -99,7 +99,7 @@ class JSON::OnSteroids
   end
 
 
-  {% for k,v in {f: Float64, i: Int64, s: String, h: Hash(String, JSON::OnSteroids), b: Bool, arr: Array(JSON::OnSteroids) } %}
+  {% for k,v in {s: String, h: Hash(String, JSON::OnSteroids), b: Bool, arr: Array(JSON::OnSteroids), nil: Nil } %}
     def as_{{k.id}}?
       @raw.as?({{v.id}})
     end
@@ -108,6 +108,34 @@ class JSON::OnSteroids
       @raw.as({{v.id}})
     end
   {% end %}
+
+  def as_number?
+    @raw.as?(Number)
+  end
+
+  def as_i
+    Int64.new(@raw.as(Number))
+  end
+
+  def as_i64
+    Int64.new(@raw.as(Number))
+  end
+
+  def as_i32
+    Int32.new(@raw.as(Number))
+  end
+
+  def as_f #< alias
+    as_f64
+  end
+
+  def as_f64
+    Float64.new(@raw.as(Number))
+  end
+
+  def as_f32
+    Float32.new(@raw.as(Number))
+  end
 
   def as_t?
     if s = @raw.as_s?
