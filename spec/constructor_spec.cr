@@ -5,6 +5,9 @@ module ConstructorSpec
     it "can construct from JSON::Any" do
       json = JSON.parse(FULL_EXAMPLE_JSON).on_steroids!
       json.to_json.should eq %({"boolean":true,"time":1234,"float":1.2,"array":[1,2,3,4,5],"array2":[true,1,1.2,null,"hello"],"hash":{"a":1,"b":true}})
+
+      json = JSON::OnSteroids.parse(FULL_EXAMPLE_JSON)
+      json.to_json.should eq %({"boolean":true,"time":1234,"float":1.2,"array":[1,2,3,4,5],"array2":[true,1,1.2,null,"hello"],"hash":{"a":1,"b":true}})
     end
 
     it "can construct from Hash" do

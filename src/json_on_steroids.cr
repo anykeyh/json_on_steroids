@@ -1,5 +1,8 @@
 require "json"
 
+module JSON #< For crystal docs
+end
+
 class JSON::OnSteroids
   VERSION = 0.1
 end
@@ -28,7 +31,6 @@ class JSON::OnSteroids
   # Key for this object, if any. String if it belongs to an hash, integer if it belongs to an array
   # if the element is root, key is set to nil.
   getter key : Union(String, Int32, Nil) = nil
-
 
   include Access
   include Searchable
@@ -183,6 +185,10 @@ class JSON::OnSteroids
     else
       io << escape(raw)
     end
+  end
+
+  def self.parse(s : String)
+    JSON.parse(s).on_steroids!
   end
 
   def to_json
