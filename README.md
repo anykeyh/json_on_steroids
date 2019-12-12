@@ -86,7 +86,7 @@ from_tuple = {
   ]
 }
 
-json = JSON::OnSteroid.new(from_tuple)
+json = JSON::OnSteroids.new(from_tuple)
 ```
 
 ### Digging
@@ -150,26 +150,11 @@ json.clean! #
 json.dirty? # => false
 ```
 
-### Searching
-
-**WIP: Not implemented yet.**
-
-You can `search` through the document a key responding to a specific rule:
-
-```crystal
-puts "Events from facebook or google:"
-
-# search every elements which contains the keys `type` and `provider`:
-json.search(type: "event", provider: /^(facebook|google)$/){ |evt|
-  puts evt["url"]
-}
-```
-
 ## Q&A
 
 ### Performance tradeoff
 
-`JSON::OnSteroid` works by encapsulate all values in a wrapper class. Performance wise, it
+`JSON::OnSteroids` works by encapsulating all values in a wrapper class. Performance wise, it
 creates new object everytime you mutate a value. Moreover, each key keep a reference
 to the parent and a dirty boolean field.
 
@@ -210,8 +195,21 @@ Usage of `dirty?` allows the edition in place of your json:
 
 If you want to interface in another ORM or libraries, pull request are welcome !
 
-# Future:
+## Future on this shard
 
-Currently not implemented but planned
+Currently not implemented but planned:
 
-- CSS-like query system.
+### Searching
+
+**WIP: Not implemented yet.**
+
+You can `search` through the document a key responding to a specific rule:
+
+```crystal
+puts "Events from facebook or google:"
+
+# search every elements which contains the keys `type` and `provider`:
+json.search(type: "event", provider: /^(facebook|google)$/){ |evt|
+  puts evt["url"]
+}
+```
