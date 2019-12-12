@@ -1,5 +1,8 @@
 # JSON::OnSteroids
 
+<img src="https://travis-ci.org/anykeyh/json_on_steroids.svg?branch=master">
+
+
 ## Description
 
 `json_on_steroids` provides powerful JSON document transformation and edition
