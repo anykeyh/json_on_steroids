@@ -38,7 +38,7 @@ Transforming JSON to hash or array is often not enough and lead to obscure type 
 
   # build from initial hash and named tuples:
   json = JSON::OnSteroids.new a: 1, b: 2
-  json = JSON::OnSteroids.new({a => 1, b => 2})
+  json = JSON::OnSteroids.new({"a" => 1, "b" => 2})
 
   # build from empty object json
   json = JSON::OnSteroids.new
