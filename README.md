@@ -1,6 +1,7 @@
 # JSON::OnSteroids
 
-<img src="https://travis-ci.org/anykeyh/json_on_steroids.svg?branch=master"><a href="https://anykeyh.github.io/json_on_steroids/"><img src="https://img.shields.io/badge/docs-available-brightgreen.svg"></a>
+[![Build Status](https://travis-ci.org/anykeyh/json_on_steroids.svg)](https://travis-ci.org/anykeyh/json_on_steroids/)
+[![API Docs](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://anykeyh.github.io/json_on_steroids/)
 
 ## Description
 
