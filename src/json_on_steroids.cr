@@ -78,21 +78,23 @@ class JSON::OnSteroids
 
   # Initialize by passing a JSON::Any object
   def initialize(json_any : JSON::Any, @parent = nil, @key = nil)
-    case json_any
-    when .as_h?
+    case json_any.raw
+    when Hash
       wrap(json_any.as_h)
-    when .as_a?
+    when Array
       wrap(json_any.as_a)
-    when .as_i?
-      @raw = json_any.as_i64
-    when .as_f?
+    when Float
       @raw = json_any.as_f
-    when .as_s?
+    when Number
+      @raw = json_any.as_i64
+    when String
       @raw = json_any.as_s
-    when .as_bool?
+    when Bool
       @raw = json_any.as_bool
-    when .as_nil
+    when Nil
       @raw = nil
+    else
+      raise "Type non supported: #{json_any.raw.class}"
     end
   end
 
