@@ -35,6 +35,10 @@ module MergeSpec
       })
 
       json.to_json.should eq %<{"a":"b","c":"d"}>
+
+      json2 = JSON::OnSteroids.new({c: 1})
+      json.merge!(json2)
+      json.to_json.should eq %<{"a":"b","c":1}>
     end
 
     it "can merge a tuple (immutable)" do

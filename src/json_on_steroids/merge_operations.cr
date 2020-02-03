@@ -45,4 +45,15 @@ module JSON::OnSteroids::MergeOperations
     json
   end
 
+  def merge!(x : JSON::OnSteroids|JSON::Any)
+    x.as_h.each{ |k,v| self[k.to_s] = v }
+    self
+  end
+
+  def merge(x : JSON::OnSteroids|JSON::Any)
+    json = JSON::OnSteroids.new(self)
+    x.as_h.each{ |k,v| json[k.to_s] = v }
+    json
+  end
+
 end
