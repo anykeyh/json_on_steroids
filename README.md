@@ -97,7 +97,7 @@ json = JSON::OnSteroids.new(from_tuple)
 Digging allows you to fetch a key in your JSON schema:
 
 ```crystal
-  json = JSON.parse(%<{"type": "event", "is": "favorites_numbers","data": [1,2,3,4] }>).mutable
+  json = JSON.parse(%<{"type": "event", "is": "favorites_numbers","data": [1,2,3,4] }>).on_steroids!
   puts json.dig("data.1").as_i #=> 2
 ```
 
