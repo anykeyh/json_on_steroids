@@ -33,7 +33,7 @@ Transforming JSON to hash or array is often not enough and lead to obscure type 
   json = JSON::OnSteroids.new
 
   # build from initial json
-  json = JSON.parse(%<{"a": 1, "b": 2}>).on_steroids
+  json = JSON.parse(%<{"a": 1, "b": 2}>).on_steroids!
   json = JSON::OnSteroids.new(JSON.parse(%<{"a": 1, "b": 2}>))
 
   # build from initial hash and named tuples:
@@ -68,7 +68,7 @@ required, while it's not true in the other way.
 `JSON::OnSteroids` add setters:
 
 ```crystal
-json = JSON.parse(%<{"type": "event", "type": "favorites_numbers","data": [1,2,3,4] }>).on_steroids
+json = JSON.parse(%<{"type": "event", "type": "favorites_numbers","data": [1,2,3,4] }>).on_steroids!
 
 json["data"][0] = "Hello"
 
@@ -97,7 +97,7 @@ json = JSON::OnSteroids.new(from_tuple)
 Digging allows you to fetch a key in your JSON schema:
 
 ```crystal
-  json = JSON.parse(%<{"type": "event", "is": "favorites_numbers","data": [1,2,3,4] }>).mutable
+  json = JSON.parse(%<{"type": "event", "is": "favorites_numbers","data": [1,2,3,4] }>).on_steroids!
   puts json.dig("data.1").as_i #=> 2
 ```
 
@@ -109,7 +109,7 @@ Two flavors of dig method exists:
 Digging can be combined with set in place and remove feature:
 
 ```crystal
-  json = JSON.parse(%<{"other": {"counter": 123}}>).on_steroids
+  json = JSON.parse(%<{"other": {"counter": 123}}>).on_steroids!
 
   json.dig("other.counter").set(&.as_i.+(1)) # Add 1 to the counter
   puts json.to_json # => {"other": {"counter": 124}}
@@ -132,7 +132,7 @@ Digging can be combined with set in place and remove feature:
   It also can return the schema with the only mutated elements:
 
 ```crystal
-  json = JSON.parse(%<{"key": 1, "other": {"counter": 123}}>).on_steroids
+  json = JSON.parse(%<{"key": 1, "other": {"counter": 123}}>).on_steroids!
 
   json["other"]["counter"] = 543
 
