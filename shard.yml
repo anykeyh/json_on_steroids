@@ -1,6 +1,8 @@
 name: json_on_steroids
 version: 0.1.0
 
+crystal: 0.36.1
+
 authors:
   - Yacine Petitprez <anykeyh@gmail.com>
 

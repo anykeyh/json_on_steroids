@@ -1,6 +1,6 @@
-version: 1.0
+version: 2.0
 shards:
   ameba:
-    github: veelenga/ameba
-    commit: 3f54786ec602c3e660ae50f210b9c465d043ce24
+    git: https://github.com/veelenga/ameba.git
+    version: 0.13.4+git.commit.51b0a07e810501895a71a8f8183ccf752d10d083
 
